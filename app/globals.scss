@@ -1,0 +1,15 @@
+$govuk-assets-path: '/assets/';
+@import 'govuk-frontend/govuk/all.scss';
+
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+}
+
+.govuk-header__link--homepage {
+  cursor: default;
+}
