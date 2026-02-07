@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { QuestionRenderer } from '../../../../../../components/QuestionRenderer';
+import { ErrorSummary } from '../../../../../../components/ErrorSummary';
 import { ProgressIndicator } from '../../../../../../components/ProgressIndicator';
 import { Timer } from '../../../../../../components/Timer';
 import { fetchTestMetadata } from '../../../../../../lib/api';
@@ -40,7 +41,7 @@ export default function TestQuestionPage({
     return (
       <div>
         <h1 className="govuk-heading-l">Question</h1>
-        {error ? <p className="govuk-error-message">{error}</p> : <p>Loading...</p>}
+        {error ? <ErrorSummary message={error} /> : <p>Loading...</p>}
       </div>
     );
   }
@@ -49,7 +50,7 @@ export default function TestQuestionPage({
     return (
       <div>
         <h1 className="govuk-heading-l">Question</h1>
-        <p className="govuk-error-message">Question not found.</p>
+        <ErrorSummary message="Question not found." />
       </div>
     );
   }
@@ -59,10 +60,14 @@ export default function TestQuestionPage({
   };
 
   const handleNext = () => {
+    if (index < 1 || index > order.length) {
+      router.push(`/tests/attempts/${params.attemptId}/question/1`);
+      return;
+    }
     if (index < order.length) {
       router.push(`/tests/attempts/${params.attemptId}/question/${index + 1}`);
     } else {
-      router.push(`/tests/attempts/${params.attemptId}/complete`);
+      router.push(`/tests/attempts/${params.attemptId}/review`);
     }
   };
 
@@ -84,7 +89,7 @@ export default function TestQuestionPage({
         initialResponse={storedAnswer?.response}
         onChange={handleChange}
       />
-      <div className="govuk-button-group">
+      <div className="govuk-button-group" role="group" aria-label="Question navigation">
         <button
           className="govuk-button govuk-button--secondary"
           type="button"
@@ -94,7 +99,7 @@ export default function TestQuestionPage({
           Previous
         </button>
         <button className="govuk-button" type="button" onClick={handleNext}>
-          {index < order.length ? 'Next' : 'Review and submit'}
+          {index < order.length ? 'Next' : 'Review answers'}
         </button>
       </div>
     </div>

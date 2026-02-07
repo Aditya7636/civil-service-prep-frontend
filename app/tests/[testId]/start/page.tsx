@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { fetchTestMetadata, startTest } from '../../../../lib/api';
+import { ErrorSummary } from '../../../../components/ErrorSummary';
+import { fetchMe, fetchTestMetadata, startTest } from '../../../../lib/api';
 import { saveContext } from '../../../../lib/storage';
 import type { TestMetadata } from '../../../../lib/types';
 
@@ -22,7 +23,8 @@ export default function TestStartPage({ params }: { params: { testId: string } }
     if (!test) return;
     setStarting(true);
     try {
-      const response = await startTest(test.id, 'user-placeholder');
+      const me = await fetchMe();
+      const response = await startTest(test.id, me.id);
       saveContext({
         testId: test.id,
         attemptId: response.attemptId,
@@ -32,7 +34,7 @@ export default function TestStartPage({ params }: { params: { testId: string } }
       });
       router.push(`/tests/attempts/${response.attemptId}/question/1`);
     } catch (err) {
-      setError('Unable to start test.');
+      setError('Unable to start test. Please sign in and try again.');
     } finally {
       setStarting(false);
     }
@@ -41,13 +43,14 @@ export default function TestStartPage({ params }: { params: { testId: string } }
   return (
     <div>
       <h1 className="govuk-heading-l">Start Test</h1>
-      {error && <p className="govuk-error-message">{error}</p>}
+      {error && <ErrorSummary message={error} />}
       {!test ? (
         <p className="govuk-body">Loading test metadata...</p>
       ) : (
         <div>
           <h2 className="govuk-heading-m">{test.name}</h2>
           <p className="govuk-body">Time limit: {test.timeLimit} minutes</p>
+          <p className="govuk-body">Questions: {test.questions.length}</p>
           <button
             className="govuk-button"
             data-module="govuk-button"
@@ -57,6 +60,12 @@ export default function TestStartPage({ params }: { params: { testId: string } }
           >
             {starting ? 'Starting...' : 'Start test'}
           </button>
+          <p className="govuk-body">
+            <a className="govuk-link" href="/auth/login">
+              Sign in
+            </a>{' '}
+            to save your progress.
+          </p>
         </div>
       )}
     </div>

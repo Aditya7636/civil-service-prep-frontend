@@ -2,8 +2,10 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { ErrorSummary } from '../../../../../components/ErrorSummary';
 import { submitTest } from '../../../../../lib/api';
 import { clearAttemptData, loadAnswers, loadContext } from '../../../../../lib/storage';
+import { setToast } from '../../../../../lib/toast';
 
 export default function TestCompletionPage({ params }: { params: { attemptId: string } }) {
   const router = useRouter();
@@ -25,8 +27,10 @@ export default function TestCompletionPage({ params }: { params: { attemptId: st
       }));
       await submitTest(context.testId, params.attemptId, answers);
       clearAttemptData(params.attemptId);
+      setToast({ text: 'Test submitted successfully.' });
       router.push(`/tests/attempts/${params.attemptId}/results`);
     } catch (err) {
+      setToast({ text: 'Submission failed. The attempt may have expired.' });
       setError('Unable to submit. Your test may have expired or already been submitted.');
     } finally {
       setSubmitting(false);
@@ -39,7 +43,12 @@ export default function TestCompletionPage({ params }: { params: { attemptId: st
       <p className="govuk-body">
         Review your answers and submit when ready. Once submitted, you cannot change your answers.
       </p>
-      {error && <p className="govuk-error-message">{error}</p>}
+      <p className="govuk-body">
+        <a className="govuk-link" href={`/tests/attempts/${params.attemptId}/review`}>
+          Back to review
+        </a>
+      </p>
+      {error && <ErrorSummary message={error} />}
       <button
         className="govuk-button"
         type="button"

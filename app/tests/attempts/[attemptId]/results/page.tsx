@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { BehaviourScoreCard } from '../../../../../components/BehaviourScoreCard';
+import { ErrorSummary } from '../../../../../components/ErrorSummary';
 import { fetchAttemptResults } from '../../../../../lib/api';
 import type { AttemptResults } from '../../../../../lib/types';
+import { setToast } from '../../../../../lib/toast';
 
 export default function ResultsPage({ params }: { params: { attemptId: string } }) {
   const [results, setResults] = useState<AttemptResults | null>(null);
@@ -11,12 +13,17 @@ export default function ResultsPage({ params }: { params: { attemptId: string } 
 
   useEffect(() => {
     fetchAttemptResults(params.attemptId)
-      .then(setResults)
+      .then((data) => {
+        setResults(data);
+        if (data.status === 'EXPIRED') {
+          setToast({ text: 'This attempt expired before submission.' });
+        }
+      })
       .catch(() => setError('Unable to load results.'));
   }, [params.attemptId]);
 
   if (error) {
-    return <p className="govuk-error-message">{error}</p>;
+    return <ErrorSummary message={error} />;
   }
 
   if (!results) {
