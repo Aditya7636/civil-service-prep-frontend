@@ -4,6 +4,13 @@ import type {
   AdminTestListResponse,
   AttemptListResponse,
   AttemptResults,
+  CatalogAssessmentMethod,
+  CatalogBehaviour,
+  CatalogCoverage,
+  CatalogDDaTRole,
+  CatalogDDaTRoleCategory,
+  CatalogProfession,
+  CatalogProfessionCategory,
   StartTestResponse,
   TestListItem,
   TestMetadata,
@@ -147,6 +154,83 @@ export async function fetchAdminAnalytics(): Promise<AdminAnalytics> {
   });
   if (!response.ok) {
     throw new Error('Failed to load analytics');
+  }
+  return response.json();
+}
+
+export async function fetchCatalogBehaviours(): Promise<CatalogBehaviour[]> {
+  const response = await fetch(`${API_BASE}/api/catalog/behaviours`, {
+    cache: 'no-store',
+    headers: buildHeaders(),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to load behaviours');
+  }
+  return response.json();
+}
+
+export async function fetchCatalogAssessmentMethods(): Promise<CatalogAssessmentMethod[]> {
+  const response = await fetch(`${API_BASE}/api/catalog/assessment-methods`, {
+    cache: 'no-store',
+    headers: buildHeaders(),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to load assessment methods');
+  }
+  return response.json();
+}
+
+export async function fetchCatalogProfessionCategories(): Promise<CatalogProfessionCategory[]> {
+  const response = await fetch(`${API_BASE}/api/catalog/profession-categories`, {
+    cache: 'no-store',
+    headers: buildHeaders(),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to load profession categories');
+  }
+  return response.json();
+}
+
+export async function fetchCatalogProfessions(): Promise<CatalogProfession[]> {
+  const response = await fetch(`${API_BASE}/api/catalog/professions`, {
+    cache: 'no-store',
+    headers: buildHeaders(),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to load professions');
+  }
+  return response.json();
+}
+
+export async function fetchCatalogDDaTCategories(): Promise<CatalogDDaTRoleCategory[]> {
+  const response = await fetch(`${API_BASE}/api/catalog/ddat-categories`, {
+    cache: 'no-store',
+    headers: buildHeaders(),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to load DDaT categories');
+  }
+  return response.json();
+}
+
+export async function fetchCatalogDDaTRoles(): Promise<CatalogDDaTRole[]> {
+  const response = await fetch(`${API_BASE}/api/catalog/ddat-roles`, {
+    cache: 'no-store',
+    headers: buildHeaders(),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to load DDaT roles');
+  }
+  return response.json();
+}
+
+export async function fetchCatalogCoverage(): Promise<CatalogCoverage> {
+  const response = await fetch(`${API_BASE}/api/catalog/coverage`, {
+    cache: 'no-store',
+    headers: buildHeaders(),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to load coverage');
   }
   return response.json();
 }

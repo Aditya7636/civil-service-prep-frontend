@@ -113,3 +113,88 @@ export type AttemptResults = {
     rubricBreakdown: unknown;
   }>;
 };
+
+export type CatalogBehaviour = {
+  id: string;
+  code: string;
+  name: string;
+  description: string;
+};
+
+export type CatalogAssessmentMethod = {
+  id: string;
+  code: string;
+  name: string;
+  description: string;
+  source: 'GOVUK' | 'INFERRED';
+};
+
+export type CatalogProfessionCategory = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+};
+
+export type CatalogProfession = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  category: {
+    id: string;
+    slug: string;
+    name: string;
+  };
+  alignedBehaviours: CatalogBehaviour[];
+  recommendedAssessments: CatalogAssessmentMethod[];
+};
+
+export type CatalogDDaTRoleCategory = {
+  id: string;
+  code: string;
+  name: string;
+  description: string;
+};
+
+export type CatalogDDaTRole = {
+  id: string;
+  code: string;
+  name: string;
+  description: string;
+  category: CatalogDDaTRoleCategory;
+  keySkills: string[];
+  typicalGrades: string[];
+  keyResponsibilities: string[];
+  alignedBehaviours: CatalogBehaviour[];
+  requiredTests: Array<{
+    id: string;
+    type: string;
+    name: string;
+    description: string;
+    typical: boolean;
+    source: 'GOVUK' | 'INFERRED';
+    assessmentMethod: { id: string; code: string; name: string } | null;
+  }>;
+};
+
+export type CatalogCoverage = {
+  totals: {
+    behaviours: number;
+    assessmentMethods: number;
+    professions: number;
+    ddatRoles: number;
+  };
+  professions: Array<{
+    slug: string;
+    name: string;
+    behaviours: number;
+    assessments: number;
+  }>;
+  ddatRoles: Array<{
+    code: string;
+    name: string;
+    behaviours: number;
+    assessments: number;
+  }>;
+};
