@@ -1,5 +1,7 @@
 import './globals.scss';
 import type { ReactNode } from 'react';
+import { AuthNav } from '../components/AuthNav';
+import { Toast } from '../components/Toast';
 
 export const metadata = {
   title: 'Civil Service Test Practice',
@@ -20,9 +22,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 Civil Service Prep
               </span>
             </div>
+            <div className="govuk-header__content">
+              <AuthNav />
+            </div>
           </div>
         </header>
         <div className="govuk-width-container">
+          <Toast />
           <main id="main-content" className="govuk-main-wrapper" role="main">
             {children}
           </main>
