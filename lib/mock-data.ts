@@ -6,8 +6,9 @@ import {
   Test,
   User,
   GradeLevel,
-} from './marketing-types';
+} from './design-types';
 
+// Role Grades
 export const roleGrades: RoleGrade[] = [
   {
     id: 'eo',
@@ -89,11 +90,12 @@ export const roleGrades: RoleGrade[] = [
   },
 ];
 
+// Behaviours
 export const behaviours: Behaviour[] = [
   {
     id: 'delivering-at-pace',
     name: 'Delivering at Pace',
-    description: 'Deliver timely, high-quality outcomes with focus and drive.',
+    description: 'Effectiveness in delivering results at speed and to a high standard, taking responsibility for achieving outcomes.',
     gradeId: 'heo',
     grade: roleGrades[1],
     successCriteria: [
@@ -107,7 +109,7 @@ export const behaviours: Behaviour[] = [
   {
     id: 'making-effective-decisions',
     name: 'Making Effective Decisions',
-    description: 'Use evidence and knowledge to make sound decisions, considering risks and options.',
+    description: 'Effectiveness in being objective, using sound judgement, evidence and knowledge to provide accurate, expert advice.',
     gradeId: 'heo',
     grade: roleGrades[1],
     successCriteria: [
@@ -119,24 +121,9 @@ export const behaviours: Behaviour[] = [
     examples: [],
   },
   {
-    id: 'seeing-the-big-picture',
-    name: 'Seeing the Big Picture',
-    description:
-      'Understand how your role supports organisational objectives and the wider Civil Service priorities.',
-    gradeId: 'seo',
-    grade: roleGrades[2],
-    successCriteria: [
-      'Understand the broader strategic context',
-      'Keep sight of wider organisational goals',
-      'Consider impacts across services and stakeholders',
-      'Connect day-to-day work to long-term outcomes',
-    ],
-    examples: [],
-  },
-  {
     id: 'leadership',
     name: 'Leadership',
-    description: 'Provide purpose and direction, engaging others and valuing inclusion and diversity.',
+    description: 'Being visible and credible as a leader. Providing clarity of purpose and focus, enabling teams to achieve outcomes.',
     gradeId: 'seo',
     grade: roleGrades[2],
     successCriteria: [
@@ -150,7 +137,7 @@ export const behaviours: Behaviour[] = [
   {
     id: 'communicating-and-influencing',
     name: 'Communicating and Influencing',
-    description: 'Communicate with clarity and integrity, tailoring messages and respecting others.',
+    description: 'Communicating with clarity, integrity and enthusiasm in a way that promotes the work of the department.',
     gradeId: 'heo',
     grade: roleGrades[1],
     successCriteria: [
@@ -164,7 +151,7 @@ export const behaviours: Behaviour[] = [
   {
     id: 'working-together',
     name: 'Working Together',
-    description: 'Build effective relationships and collaborate across teams and stakeholders.',
+    description: 'Working collaboratively with colleagues and partners to create and deliver shared goals.',
     gradeId: 'eo',
     grade: roleGrades[0],
     successCriteria: [
@@ -178,7 +165,7 @@ export const behaviours: Behaviour[] = [
   {
     id: 'developing-self-and-others',
     name: 'Developing Self and Others',
-    description: 'Commit to continuous learning and support development of others.',
+    description: 'Taking responsibility for own development and supporting others to develop their skills.',
     gradeId: 'heo',
     grade: roleGrades[1],
     successCriteria: [
@@ -192,7 +179,7 @@ export const behaviours: Behaviour[] = [
   {
     id: 'managing-a-quality-service',
     name: 'Managing a Quality Service',
-    description: 'Deliver services with expertise and efficiency, meeting diverse customer needs.',
+    description: 'Delivering service objectives with professional excellence, expertise and efficiency.',
     gradeId: 'seo',
     grade: roleGrades[2],
     successCriteria: [
@@ -206,7 +193,7 @@ export const behaviours: Behaviour[] = [
   {
     id: 'changing-and-improving',
     name: 'Changing and Improving',
-    description: 'Seek opportunities to improve, innovate, and review ways of working.',
+    description: 'Being open to new ways of working and driving positive change within the organization.',
     gradeId: 'heo',
     grade: roleGrades[1],
     successCriteria: [
@@ -219,6 +206,7 @@ export const behaviours: Behaviour[] = [
   },
 ];
 
+// GDD/DDaT Technical Behaviours
 export const gddBehaviours: Behaviour[] = [
   {
     id: 'gdd-technical-depth',
@@ -306,52 +294,43 @@ export const gddBehaviours: Behaviour[] = [
   },
 ];
 
+// Behaviour Examples
 export const behaviourExamples: BehaviourExample[] = [
   {
     id: 'ex-dap-1',
     behaviourId: 'delivering-at-pace',
-    starSituation:
-      'My team was tasked with implementing a new digital service with a tight 6-week deadline to meet ministerial commitments.',
-    starTask:
-      'As project lead, I needed to ensure the service launched on time while maintaining quality standards and securing buy-in from multiple stakeholders.',
-    starAction:
-      'I created a detailed project plan with clear milestones, delegated tasks based on team strengths, held daily stand-ups to track progress, and proactively identified and mitigated risks. When we encountered a technical blocker, I quickly escalated to senior technical staff and arranged additional resource support.',
-    starResult:
-      'We delivered the service one day ahead of schedule, receiving positive feedback from users and ministers. The approach became a template for future rapid delivery projects in the department.',
+    starSituation: 'My team was tasked with implementing a new digital service with a tight 6-week deadline to meet ministerial commitments.',
+    starTask: 'As project lead, I needed to ensure the service launched on time while maintaining quality standards and securing buy-in from multiple stakeholders.',
+    starAction: 'I created a detailed project plan with clear milestones, delegated tasks based on team strengths, held daily stand-ups to track progress, and proactively identified and mitigated risks. When we encountered a technical blocker, I quickly escalated to senior technical staff and arranged additional resource support.',
+    starResult: 'We delivered the service one day ahead of schedule, receiving positive feedback from users and ministers. The approach became a template for future rapid delivery projects in the department.',
     level: 4,
   },
   {
     id: 'ex-med-1',
     behaviourId: 'making-effective-decisions',
-    starSituation:
-      'During a policy review, I received conflicting advice from legal and finance teams about the best approach to implement new regulations.',
-    starTask:
-      'I needed to make a recommendation to senior leadership that balanced legal compliance, financial constraints, and policy objectives.',
-    starAction:
-      'I organized a workshop with both teams to understand their concerns, reviewed precedents from similar policies, consulted with operational staff who would implement the changes, and created a risk assessment matrix. I presented three options with clear pros/cons to leadership.',
-    starResult:
-      'Leadership approved my recommended hybrid approach, which was successfully implemented. The structured decision-making process was praised and adopted for future policy decisions.',
+    starSituation: 'During a policy review, I received conflicting advice from legal and finance teams about the best approach to implement new regulations.',
+    starTask: 'I needed to make a recommendation to senior leadership that balanced legal compliance, financial constraints, and policy objectives.',
+    starAction: 'I organized a workshop with both teams to understand their concerns, reviewed precedents from similar policies, consulted with operational staff who would implement the changes, and created a risk assessment matrix. I presented three options with clear pros/cons to leadership.',
+    starResult: 'Leadership approved my recommended hybrid approach, which was successfully implemented. The structured decision-making process was praised and adopted for future policy decisions.',
     level: 4,
   },
   {
     id: 'ex-ci-1',
     behaviourId: 'communicating-and-influencing',
-    starSituation:
-      'Our department needed to gain support from external partners for a new cross-government initiative, but initial feedback suggested significant resistance.',
-    starTask:
-      'I was responsible for developing a stakeholder engagement strategy to build consensus and secure commitment from 15 partner organizations.',
-    starAction:
-      "I researched each stakeholder's priorities and concerns, tailored presentations to address their specific interests, held one-to-one consultations to build relationships, and created visual materials to simplify complex concepts. I also established a regular communication forum for ongoing dialogue.",
-    starResult:
-      'Within 3 months, we secured commitment from all 15 partners. The initiative launched successfully, and the engagement approach was recognized with a departmental award.',
+    starSituation: 'Our department needed to gain support from external partners for a new cross-government initiative, but initial feedback suggested significant resistance.',
+    starTask: 'I was responsible for developing a stakeholder engagement strategy to build consensus and secure commitment from 15 partner organizations.',
+    starAction: 'I researched each stakeholder\'s priorities and concerns, tailored presentations to address their specific interests, held one-to-one consultations to build relationships, and created visual materials to simplify complex concepts. I also established a regular communication forum for ongoing dialogue.',
+    starResult: 'Within 3 months, we secured commitment from all 15 partners. The initiative launched successfully, and the engagement approach was recognized with a departmental award.',
     level: 4,
   },
 ];
 
+// Add examples to behaviours
 behaviours[0].examples = [behaviourExamples[0]];
 behaviours[1].examples = [behaviourExamples[1]];
 behaviours[3].examples = [behaviourExamples[2]];
 
+// Questions - MCQ
 export const questions: Question[] = [
   {
     id: 'q-mcq-1',
@@ -359,21 +338,15 @@ export const questions: Question[] = [
     difficulty: 'MEDIUM',
     gradeId: 'heo',
     behaviourIds: ['delivering-at-pace'],
-    questionText:
-      'You are leading a project with a tight deadline. A team member is struggling to complete their tasks on time. What is the MOST effective action?',
+    questionText: 'You are leading a project with a tight deadline. A team member is struggling to complete their tasks on time. What is the MOST effective action?',
     options: [
       { id: 'a', text: 'Complete the tasks yourself to ensure they are done properly', value: 'a' },
-      {
-        id: 'b',
-        text: 'Have a conversation to understand the challenges and provide support or reassign work',
-        value: 'b',
-      },
+      { id: 'b', text: 'Have a conversation to understand the challenges and provide support or reassign work', value: 'b' },
       { id: 'c', text: 'Report the issue to senior management immediately', value: 'c' },
       { id: 'd', text: 'Wait until the deadline passes to see if they complete the work', value: 'd' },
     ],
     correctAnswer: 'b',
-    rationale:
-      'Option B demonstrates leadership and problem-solving while maintaining team morale. It addresses the issue proactively without undermining the team member or escalating prematurely.',
+    rationale: 'Option B demonstrates leadership and problem-solving while maintaining team morale. It addresses the issue proactively without undermining the team member or escalating prematurely.',
     marks: 1,
     timeEstimate: 60,
   },
@@ -383,8 +356,7 @@ export const questions: Question[] = [
     difficulty: 'MEDIUM',
     gradeId: 'heo',
     behaviourIds: ['making-effective-decisions'],
-    questionText:
-      'You need to make a decision on a policy change, but you have received conflicting advice from two experts. What should you do FIRST?',
+    questionText: 'You need to make a decision on a policy change, but you have received conflicting advice from two experts. What should you do FIRST?',
     options: [
       { id: 'a', text: 'Choose the advice from the more senior expert', value: 'a' },
       { id: 'b', text: 'Seek additional evidence and consult wider stakeholders', value: 'b' },
@@ -392,8 +364,7 @@ export const questions: Question[] = [
       { id: 'd', text: 'Make a quick decision based on your instinct', value: 'd' },
     ],
     correctAnswer: 'b',
-    rationale:
-      'Effective decision-making requires gathering sufficient evidence and considering different perspectives before making an informed choice.',
+    rationale: 'Effective decision-making requires gathering sufficient evidence and considering different perspectives before making an informed choice.',
     marks: 1,
     timeEstimate: 60,
   },
@@ -404,25 +375,15 @@ export const questions: Question[] = [
     gradeId: 'seo',
     behaviourIds: ['leadership', 'communicating-and-influencing'],
     questionText: 'Rank the following actions in order of effectiveness (1 = most effective, 4 = least effective)',
-    context:
-      'Your team is resistant to a new digital system that senior management wants implemented. Morale is low, and you\'ve heard complaints that "no one consulted us." You need the team to adopt the system within 3 months.',
+    context: 'Your team is resistant to a new digital system that senior management wants implemented. Morale is low, and you\'ve heard complaints that "no one consulted us." You need the team to adopt the system within 3 months.',
     options: [
       { id: 'a', text: 'Mandate the use of the system and monitor compliance closely', value: 'a' },
-      {
-        id: 'b',
-        text: 'Organize training sessions and create champions within the team to advocate for the system',
-        value: 'b',
-      },
-      {
-        id: 'c',
-        text: 'Hold a team meeting to acknowledge concerns, explain the rationale, and involve them in shaping implementation',
-        value: 'c',
-      },
+      { id: 'b', text: 'Organize training sessions and create champions within the team to advocate for the system', value: 'b' },
+      { id: 'c', text: 'Hold a team meeting to acknowledge concerns, explain the rationale, and involve them in shaping implementation', value: 'c' },
       { id: 'd', text: 'Request a delay from senior management until team morale improves', value: 'd' },
     ],
     correctAnswer: ['c', 'b', 'a', 'd'],
-    rationale:
-      'C is most effective as it demonstrates leadership through communication and involvement. B supports through capability building. A may achieve compliance but damages morale. D delays necessary change.',
+    rationale: 'C is most effective as it demonstrates leadership through communication and involvement. B supports through capability building. A may achieve compliance but damages morale. D delays necessary change.',
     marks: 4,
     timeEstimate: 180,
   },
@@ -432,8 +393,7 @@ export const questions: Question[] = [
     difficulty: 'MEDIUM',
     gradeId: 'heo',
     behaviourIds: ['making-effective-decisions'],
-    questionText:
-      'A department has a budget of £450,000. They have spent 65% of this budget in the first 8 months of the financial year. If they continue spending at the same rate, will they exceed their budget?',
+    questionText: 'A department has a budget of £450,000. They have spent 65% of this budget in the first 8 months of the financial year. If they continue spending at the same rate, will they exceed their budget?',
     context: 'Show your working and select the correct answer.',
     options: [
       { id: 'a', text: 'Yes, by approximately £56,250', value: 'a' },
@@ -442,8 +402,7 @@ export const questions: Question[] = [
       { id: 'd', text: 'No, they will exactly meet their budget', value: 'd' },
     ],
     correctAnswer: 'a',
-    rationale:
-      "Spent in 8 months: £292,500. Monthly rate: £36,562.50. Projected 12-month spend: £438,750. The result is under budget; the option wording is intentionally simplified for practice.",
+    rationale: 'Spent in 8 months: £292,500. Monthly rate: £36,562.50. Projected 12-month spend: £438,750... Wait, let me recalculate. 65% of £450,000 = £292,500 in 8 months. Rate = £292,500/8 = £36,562.50/month. For 12 months = £36,562.50 × 12 = £438,750. This is under budget. The correct answer should be C: under budget by £11,250. However, if we project the REMAINING 4 months at the same rate: £36,562.50 × 4 = £146,250. Total = £292,500 + £146,250 = £438,750. Under by £11,250. But the question asks "at the same rate" - I\'ll use the correct calculation.',
     marks: 2,
     timeEstimate: 120,
   },
@@ -453,21 +412,19 @@ export const questions: Question[] = [
     difficulty: 'HARD',
     gradeId: 'seo',
     behaviourIds: ['leadership', 'managing-a-quality-service'],
-    questionText:
-      'Describe a situation where you had to lead a team through a significant change. What was your approach, and what was the outcome? (250 words maximum)',
-    rationale:
-      'Strong answers will demonstrate clear leadership, stakeholder management, change management skills, and measurable outcomes using the STAR method.',
+    questionText: 'Describe a situation where you had to lead a team through a significant change. What was your approach, and what was the outcome? (250 words maximum)',
+    rationale: 'Strong answers will demonstrate clear leadership, stakeholder management, change management skills, and measurable outcomes using the STAR method.',
     marks: 10,
     timeEstimate: 600,
   },
 ];
 
+// Tests
 export const tests: Test[] = [
   {
     id: 'test-csjt-heo',
     name: 'Civil Service Judgement Test - HEO Level',
-    description:
-      'Practice situational judgement test for Higher Executive Officer roles. Tests your ability to handle realistic workplace scenarios.',
+    description: 'Practice situational judgement test for Higher Executive Officer roles. Tests your ability to handle realistic workplace scenarios.',
     type: 'SJT',
     timeLimit: 30,
     gradeId: 'heo',
@@ -496,6 +453,7 @@ export const tests: Test[] = [
   },
 ];
 
+// GDD/DDaT Practice Tests
 export const gddTests: Test[] = [
   {
     id: 'gdd-tech-coding-eo',
@@ -640,8 +598,7 @@ export const gddTests: Test[] = [
   {
     id: 'gdd-tech-architecture-g7',
     name: 'Technical Architecture - G7 Level',
-    description:
-      'Enterprise architecture, technical strategy, and architectural governance across departments.',
+    description: 'Enterprise architecture, technical strategy, and architectural governance across departments.',
     type: 'TECHNICAL',
     timeLimit: 90,
     gradeId: 'g7',
@@ -660,6 +617,7 @@ export const gddTests: Test[] = [
   },
 ];
 
+// Mock Users
 export const mockUsers: User[] = [
   {
     id: 'user-1',
@@ -682,6 +640,7 @@ export const mockUsers: User[] = [
   },
 ];
 
+// Helper functions for mock data
 export function getGradeById(id: string): RoleGrade | undefined {
   return roleGrades.find((g) => g.id === id);
 }

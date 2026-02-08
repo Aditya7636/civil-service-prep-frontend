@@ -2,6 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/lib/auth-context';
+import { fetchCatalogDDaTCategories, fetchCatalogDDaTRoles } from '@/lib/api';
+import type { CatalogDDaTRole, CatalogDDaTRoleCategory } from '@/lib/types';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import {
   ArrowRight,
   ArrowLeft,
@@ -15,12 +20,11 @@ import {
   CheckCircle2,
   ClipboardCheck,
   Target,
-} from '../../components/marketing/icons';
-import { fetchCatalogDDaTCategories, fetchCatalogDDaTRoles } from '../../lib/api';
-import type { CatalogDDaTRole, CatalogDDaTRoleCategory } from '../../lib/types';
+} from 'lucide-react';
 
 export default function DDaTRoleSelectorPage() {
   const router = useRouter();
+  const { updateDDaTRole } = useAuth();
   const [selectedRole, setSelectedRole] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [categories, setCategories] = useState<CatalogDDaTRoleCategory[]>([]);
@@ -58,13 +62,14 @@ export default function DDaTRoleSelectorPage() {
     <div className="min-h-screen bg-background">
       <div className="bg-gradient-to-br from-[var(--navy-900)] to-[var(--navy-800)] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <button
+          <Button
+            variant="ghost"
             onClick={() => router.push('/profession-selector')}
-            className="text-white hover:bg-white/10 mb-4 -ml-3 px-3 py-2 rounded-lg inline-flex items-center"
+            className="text-white hover:bg-white/10 mb-4 -ml-3"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Profession Selection
-          </button>
+          </Button>
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
               <Code className="h-6 w-6 text-white" />
@@ -115,7 +120,7 @@ export default function DDaTRoleSelectorPage() {
           </div>
           {selectedCategory !== 'all' && (
             <p className="text-sm text-[var(--navy-600)] mt-3">
-              {categories.find((c) => c.code === selectedCategory)?.description}
+              {categories.find((category) => category.code === selectedCategory)?.description}
             </p>
           )}
           {error && <p className="text-sm text-red-600 mt-3">{error}</p>}
@@ -128,18 +133,23 @@ export default function DDaTRoleSelectorPage() {
             filteredRoles.map((role) => {
               const Icon = categoryIcons[role.category.code] ?? Code;
               const isSelected = selectedRole === role.code;
+
               return (
-                <div
+                <Card
                   key={role.id}
                   onClick={() => setSelectedRole(role.code)}
-                  onDoubleClick={() => router.push('/grade-selector')}
-                  className={`cursor-pointer transition-all duration-200 rounded-xl ${
+                  onDoubleClick={() => {
+                    setSelectedRole(role.code);
+                    updateDDaTRole(role.code);
+                    router.push('/grade-selector');
+                  }}
+                  className={`cursor-pointer transition-all duration-200 ${
                     isSelected
                       ? 'border-2 border-[var(--navy-800)] bg-gradient-to-br from-[var(--navy-50)] to-white shadow-lg ring-2 ring-[var(--navy-800)]/20'
                       : 'border-2 border-[var(--sand-300)] hover:border-[var(--navy-700)] hover:shadow-md'
                   }`}
                 >
-                  <div className="p-5">
+                  <CardContent className="p-5">
                     <div className="flex items-start gap-3 mb-3">
                       <div
                         className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
@@ -179,8 +189,8 @@ export default function DDaTRoleSelectorPage() {
                         </p>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </CardContent>
+                </Card>
               );
             })
           )}
@@ -250,7 +260,7 @@ export default function DDaTRoleSelectorPage() {
                   </div>
                   <ul className="space-y-3">
                     {selectedRoleData.requiredTests.map((test) => (
-                      <li key={test.name} className="text-sm">
+                      <li key={test.id} className="text-sm">
                         <div className="flex items-center gap-2 mb-1">
                           <span
                             className={`px-2 py-0.5 rounded text-xs font-medium ${
@@ -278,13 +288,18 @@ export default function DDaTRoleSelectorPage() {
               </div>
 
               <div className="flex justify-end">
-                <button
-                  onClick={() => router.push('/grade-selector')}
+                <Button
+                  onClick={() => {
+                    if (selectedRole) {
+                      updateDDaTRole(selectedRole);
+                    }
+                    router.push('/grade-selector');
+                  }}
                   className="bg-white text-[var(--navy-900)] hover:bg-[var(--sand-100)] h-12 px-8 shadow-lg text-base rounded-lg inline-flex items-center"
                 >
                   Continue to Grade Selection
                   <ArrowRight className="ml-2 h-5 w-5" />
-                </button>
+                </Button>
               </div>
             </div>
           </div>

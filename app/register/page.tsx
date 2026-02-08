@@ -2,7 +2,15 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { GraduationCap, AlertCircle } from '../../components/marketing/icons';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/lib/auth-context';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Checkbox } from '@/components/ui/checkbox';
+import { AlertCircle, GraduationCap } from 'lucide-react';
 
 export default function RegisterPage() {
   const [name, setName] = useState('');
@@ -10,8 +18,41 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
-  const [error] = useState('');
-  const [loading] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { register } = useAuth();
+  const router = useRouter();
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setError('');
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    if (!agreedToTerms) {
+      setError('Please agree to the terms and conditions');
+      return;
+    }
+
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await register(name, email, password);
+      router.push('/grade-selector');
+    } catch {
+      setError('Registration failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-[calc(100vh-200px)] flex items-center justify-center bg-[var(--sand-100)] py-12 px-4 sm:px-6 lg:px-8">
@@ -26,87 +67,86 @@ export default function RegisterPage() {
           <p className="text-[var(--navy-600)]">Create your account to begin preparation</p>
         </div>
 
-        <div className="border border-[var(--sand-300)] shadow-lg rounded-xl bg-white">
-          <div className="p-6 border-b border-[var(--sand-300)]">
-            <h2 className="text-xl text-[var(--navy-900)]">Create your account</h2>
-          </div>
-          <div className="p-6">
-            <form className="space-y-5">
+        <Card className="border border-[var(--sand-300)] shadow-lg">
+          <CardHeader>
+            <CardTitle className="text-xl text-[var(--navy-900)]">Create your account</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-5">
               {error && (
-                <div className="bg-red-50 text-red-900 border border-red-200 rounded-lg p-3 flex items-start gap-2">
-                  <AlertCircle className="h-4 w-4 mt-0.5" />
-                  <span className="text-sm">{error}</span>
-                </div>
+                <Alert variant="destructive" className="bg-red-50 text-red-900 border-red-200">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
               )}
 
               <div className="space-y-2">
-                <label htmlFor="name" className="text-[var(--navy-900)] text-sm font-medium">
+                <Label htmlFor="name" className="text-[var(--navy-900)]">
                   Full name
-                </label>
-                <input
+                </Label>
+                <Input
                   id="name"
                   type="text"
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                   required
-                  className="w-full border border-[var(--sand-300)] focus-visible:ring-[var(--teal-500)] focus-visible:border-[var(--teal-500)] rounded-lg px-4 py-3"
+                  className="border-[var(--sand-300)] focus-visible:ring-[var(--teal-500)] focus-visible:border-[var(--teal-500)] rounded-lg"
                   placeholder="John Smith"
                 />
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="email" className="text-[var(--navy-900)] text-sm font-medium">
+                <Label htmlFor="email" className="text-[var(--navy-900)]">
                   Email address
-                </label>
-                <input
+                </Label>
+                <Input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                   required
-                  className="w-full border border-[var(--sand-300)] focus-visible:ring-[var(--teal-500)] focus-visible:border-[var(--teal-500)] rounded-lg px-4 py-3"
+                  className="border-[var(--sand-300)] focus-visible:ring-[var(--teal-500)] focus-visible:border-[var(--teal-500)] rounded-lg"
                   placeholder="your.email@example.com"
                 />
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="password" className="text-[var(--navy-900)] text-sm font-medium">
+                <Label htmlFor="password" className="text-[var(--navy-900)]">
                   Password
-                </label>
-                <input
+                </Label>
+                <Input
                   id="password"
                   type="password"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   required
-                  className="w-full border border-[var(--sand-300)] focus-visible:ring-[var(--teal-500)] focus-visible:border-[var(--teal-500)] rounded-lg px-4 py-3"
+                  className="border-[var(--sand-300)] focus-visible:ring-[var(--teal-500)] focus-visible:border-[var(--teal-500)] rounded-lg"
                   placeholder="••••••••"
                 />
                 <p className="text-xs text-[var(--navy-600)]">Minimum 8 characters</p>
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="confirmPassword" className="text-[var(--navy-900)] text-sm font-medium">
+                <Label htmlFor="confirmPassword" className="text-[var(--navy-900)]">
                   Confirm password
-                </label>
-                <input
+                </Label>
+                <Input
                   id="confirmPassword"
                   type="password"
                   value={confirmPassword}
                   onChange={(event) => setConfirmPassword(event.target.value)}
                   required
-                  className="w-full border border-[var(--sand-300)] focus-visible:ring-[var(--teal-500)] focus-visible:border-[var(--teal-500)] rounded-lg px-4 py-3"
+                  className="border-[var(--sand-300)] focus-visible:ring-[var(--teal-500)] focus-visible:border-[var(--teal-500)] rounded-lg"
                   placeholder="••••••••"
                 />
               </div>
 
               <div className="flex items-start gap-3 py-2">
-                <input
+                <Checkbox
                   id="terms"
-                  type="checkbox"
                   checked={agreedToTerms}
-                  onChange={(event) => setAgreedToTerms(event.target.checked)}
-                  className="mt-1 h-4 w-4 rounded border-[var(--sand-300)]"
+                  onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
+                  className="mt-1"
                 />
                 <label htmlFor="terms" className="text-sm text-[var(--navy-700)] leading-relaxed cursor-pointer">
                   I agree to the{' '}
@@ -120,13 +160,13 @@ export default function RegisterPage() {
                 </label>
               </div>
 
-              <button
+              <Button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[var(--navy-800)] hover:bg-[var(--navy-900)] text-white py-4 rounded-lg"
+                className="w-full bg-[var(--navy-800)] hover:bg-[var(--navy-900)] text-white py-6 rounded-lg"
               >
                 {loading ? 'Creating account...' : 'Create account'}
-              </button>
+              </Button>
             </form>
 
             <div className="mt-6 text-center text-sm">
@@ -135,8 +175,8 @@ export default function RegisterPage() {
                 Sign in
               </Link>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

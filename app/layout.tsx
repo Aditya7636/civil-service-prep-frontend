@@ -1,17 +1,20 @@
 import './globals.scss';
 import type { ReactNode } from 'react';
-import { ClientShell } from '../components/ClientShell';
+import Layout from '../components/layout';
+import { AuthProvider } from '../lib/auth-context';
 
 export const metadata = {
-  title: 'Civil Service Test Practice',
-  description: 'Practice tests for UK Civil Service candidates',
+  title: 'Civil Service Prep Platform',
+  description: 'Civil Service preparation, practice tests, and interview prep.',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className="govuk-template__body">
-        <ClientShell>{children}</ClientShell>
+      <body>
+        <AuthProvider>
+          <Layout>{children}</Layout>
+        </AuthProvider>
       </body>
     </html>
   );

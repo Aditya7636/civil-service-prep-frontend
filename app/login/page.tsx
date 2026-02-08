@@ -2,13 +2,37 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { GraduationCap, AlertCircle } from '../../components/marketing/icons';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/lib/auth-context';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertCircle, GraduationCap } from 'lucide-react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error] = useState('');
-  const [loading] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
+  const router = useRouter();
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      await login(email, password);
+      router.push('/profession-selector');
+    } catch {
+      setError('Invalid email or password');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-[calc(100vh-200px)] flex items-center justify-center bg-[var(--sand-100)] py-12 px-4 sm:px-6 lg:px-8">
@@ -23,79 +47,79 @@ export default function LoginPage() {
           <p className="text-[var(--navy-600)]">Sign in to continue your preparation</p>
         </div>
 
-        <div className="border border-[var(--sand-300)] shadow-lg rounded-xl bg-white">
-          <div className="p-6 border-b border-[var(--sand-300)]">
-            <h2 className="text-xl text-[var(--navy-900)]">Sign in to your account</h2>
-          </div>
-          <div className="p-6">
-            <form className="space-y-5">
+        <Card className="border border-[var(--sand-300)] shadow-lg">
+          <CardHeader>
+            <CardTitle className="text-xl text-[var(--navy-900)]">Sign in to your account</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-5">
               {error && (
-                <div className="bg-red-50 text-red-900 border border-red-200 rounded-lg p-3 flex items-start gap-2">
-                  <AlertCircle className="h-4 w-4 mt-0.5" />
-                  <span className="text-sm">{error}</span>
-                </div>
+                <Alert variant="destructive" className="bg-red-50 text-red-900 border-red-200">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
               )}
 
               <div className="space-y-2">
-                <label htmlFor="email" className="text-[var(--navy-900)] text-sm font-medium">
+                <Label htmlFor="email" className="text-[var(--navy-900)]">
                   Email address
-                </label>
-                <input
+                </Label>
+                <Input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                   required
-                  className="w-full border border-[var(--sand-300)] focus-visible:ring-[var(--teal-500)] focus-visible:border-[var(--teal-500)] rounded-lg px-4 py-3"
+                  className="border-[var(--sand-300)] focus-visible:ring-[var(--teal-500)] focus-visible:border-[var(--teal-500)] rounded-lg"
                   placeholder="your.email@example.com"
                 />
               </div>
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label htmlFor="password" className="text-[var(--navy-900)] text-sm font-medium">
+                  <Label htmlFor="password" className="text-[var(--navy-900)]">
                     Password
-                  </label>
+                  </Label>
                   <span className="text-xs text-[var(--teal-600)] hover:text-[var(--teal-700)]">
                     Forgot password?
                   </span>
                 </div>
-                <input
+                <Input
                   id="password"
                   type="password"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   required
-                  className="w-full border border-[var(--sand-300)] focus-visible:ring-[var(--teal-500)] focus-visible:border-[var(--teal-500)] rounded-lg px-4 py-3"
+                  className="border-[var(--sand-300)] focus-visible:ring-[var(--teal-500)] focus-visible:border-[var(--teal-500)] rounded-lg"
                   placeholder="••••••••"
                 />
               </div>
 
-              <button
+              <Button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[var(--navy-800)] hover:bg-[var(--navy-900)] text-white py-4 rounded-lg"
+                className="w-full bg-[var(--navy-800)] hover:bg-[var(--navy-900)] text-white py-6 rounded-lg"
               >
                 {loading ? 'Signing in...' : 'Sign in'}
-              </button>
+              </Button>
             </form>
 
             <div className="mt-6 text-center text-sm">
-              <span className="text-[var(--navy-600)]">Don't have an account? </span>
+              <span className="text-[var(--navy-600)]">Don&apos;t have an account? </span>
               <Link href="/register" className="text-[var(--teal-600)] hover:text-[var(--teal-700)] font-medium">
                 Create one now
               </Link>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
-        <div className="mt-4 bg-[var(--navy-900)] text-white border-0 rounded-xl">
-          <div className="p-4 text-sm">
+        <Card className="mt-4 bg-[var(--navy-900)] text-white border-0">
+          <CardContent className="p-4 text-sm">
             <p className="font-semibold mb-2">Demo credentials:</p>
             <p className="text-white/80">Email: any@example.com</p>
             <p className="text-white/80">Password: any password</p>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
